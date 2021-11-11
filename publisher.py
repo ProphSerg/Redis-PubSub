@@ -33,9 +33,13 @@ if __name__ == '__main__':
     args = vars(createParser().parse_args())
     print(args)
 
-    for i in range(2 if args['P'] == True else args['sub_count']):
+    threads = []
+    for i in range(1 if args['P'] == True else args['sub_count']):
         t = RedisThread(args)
         t.start()
+        threads.append(t)
+
+    for t in threads:
         t.join()
 
     '''
