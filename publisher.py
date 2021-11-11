@@ -1,6 +1,7 @@
 import argparse
 import time
 from RedisThread import RedisThread
+import logging
 
 def createParser():
     parser = argparse.ArgumentParser()
@@ -31,7 +32,11 @@ def createParser():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     args = vars(createParser().parse_args())
-    print(args)
+    #print(args)
+    logging.basicConfig(
+        format='%(asctime)s [%(threadName)s]: %(message)s',
+        level=logging.INFO,
+    )
 
     threads = []
     for i in range(1 if args['P'] == True else args['sub_count']):
@@ -41,16 +46,3 @@ if __name__ == '__main__':
 
     for t in threads:
         t.join()
-
-    '''
-    format = "%(asctime)s: <%(%(message)s"
-    logging.basicConfig(format=format, level=logging.INFO,
-                        datefmt="%H:%M:%S")
-    thrFull = RedisThread(pubType=RedisThread.FULLDATA)
-    thrFull.start()
-    thrFull.join()
-
-    thrInc = RedisThread(pubType=RedisThread.INCDATA)
-    thrInc.start()
-    thrInc.join()
-'''
